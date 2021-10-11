@@ -33,21 +33,28 @@ PrintWriter printwrt;
             path = getServletContext().getRealPath("/WEB-INF/note.txt"); 
             bufread = new BufferedReader(new FileReader(new File(path)));
             while (bufread.ready()){
+              
+                
                 title = bufread.readLine();
                 contents = bufread.readLine();
+                
                 Note newNote = new Note(title, contents);
                 request.setAttribute("note", newNote);
                 bufread.close();
+                
             }  
             
         }
         catch (IOException e){
             request.setAttribute("errorMessage", true);
-           // return;
+           //return;
         }
-        if (request.getParameter("edit")!=null){
+        
+        if (request.getParameter("edit")!= null){
+            
             getServletContext().getRequestDispatcher("/WEB-INF/editnote.jsp").forward(request,response);
             return;       
+
         }
         else{
             getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp").forward(request,response);
@@ -62,11 +69,11 @@ PrintWriter printwrt;
        
         printwrt = new PrintWriter(new BufferedWriter(new FileWriter(path, false)));
         
-        String title1 = request.getParameter("title_");
-        String contents1 = request.getParameter("contents_");
-         printwrt.println(title1); 
-        printwrt.println(contents1);
-        Note newNote2 = new Note(title1, contents1);
+        title = request.getParameter("title");
+        contents = request.getParameter("contents");
+         printwrt.println(title); 
+        printwrt.println(contents);
+        Note newNote2 = new Note(title, contents);
         request.setAttribute("note", newNote2);
        
         printwrt.close();
